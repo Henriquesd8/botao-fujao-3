@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Relacionamento</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        p {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            color: #444;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1cm; /* Espaçamento de 1 centímetro */
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            color: white;
+        }
+
+        #sim {
+            background-color: #28a745;
+        }
+
+        #nao {
+            background-color: #dc3545;
+            position: absolute;
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            transform: rotate(45deg);
+            animation: fall 5s infinite;
+        }
+
+        .heart:before, .heart:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 10px;
+            top: 0;
+        }
+
+        @keyframes fall {
+            0% {top: -10%; opacity: 1;}
+            100% {top: 100%; opacity: 0;}
+        }
+
+        #message {
+            font-size: 2rem;
+            color: #e63946;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Nosso Relacionamento</h1>
+        <h2>Sua escolha é livre!</h2>
+        <p>Quer namorar comigo?</p>
+
+        <div class="buttons">
+            <button id="sim">Sim</button>
+            <button id="nao">Não</button>
+        </div>
+
+        <div id="message">Te amo meu amor!</div>
+    </div>
+
+    <div class="hearts"></div>
+
+    <script>
+        const btnNao = document.getElementById('nao');
+        const btnSim = document.getElementById('sim');
+        const message = document.getElementById('message');
+        const heartsContainer = document.querySelector('.hearts');
+
+        // Função para mover o botão "Não" para uma posição aleatória
+        function moverBotaoNao() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            const randomX = Math.random() * (containerWidth - btnNao.offsetWidth);
+            const randomY = Math.random() * (containerHeight - btnNao.offsetHeight);
+            btnNao.style.left = `${randomX}px`; 
+            btnNao.style.top = `${randomY}px`;
+            btnNao.style.visibility = "visible";  // Reaparece em nova posição
+        }
+
+        btnNao.addEventListener('click', () => {
+            btnNao.style.visibility = "hidden";  // Desaparece ao clicar
+            setTimeout(moverBotaoNao, 500);      // Reaparece após 500ms em nova posição
+        });
+
+        // Função para fazer chover corações ao clicar no "Sim"
+        btnSim.addEventListener('click', () => {
+            message.style.display = 'block';
+            for (let i = 0; i < 50; i++) {
+                createHeart();
+            }
+        });
+
+        // Função que cria um coração caindo
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = `${Math.random() * 100}vw`;
+            heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000); // Remove o coração após a animação
+        }
+    </script>
+
+</body>
+</html>
